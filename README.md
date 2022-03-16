@@ -17,4 +17,23 @@ if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
 }
 ```
 
-We created a class "CustomContentReceiver" that extends from <b>OnReceiveContentListener</b>
+We created a class <b>CustomContentReceiver</b> that extends from <b>OnReceiveContentListener</b> and we should override the principal method <i>onReceiveContent</i>
+
+```groovy
+override fun onReceiveContent(
+   view: View,
+   contentInfo: ContentInfoCompat
+): ContentInfoCompat? {
+   val split = contentInfo.partition { item: ClipData.Item -> item.uri != null }
+      split.first?.let { uriContent ->
+      contentReceived(uriContent.clip.getItemAt(0).uri)
+   }
+   return split.second
+}
+```
+
+You can use [coil-kt](https://github.com/coil-kt/coil) like in our case to load image from the Uri or use an other library
+
+## Licence
+
+[LICENCE](https://github.com/tahajadid/QuickShareReceiver/blob/main/LICENSE)
